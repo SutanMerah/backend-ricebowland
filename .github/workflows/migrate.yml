@@ -2,7 +2,7 @@ name: Run Database Migration
 
 on:
   push:
-    branches: [ main ]  # Akan berjalan otomatis setiap kamu push ke main
+    branches: [ main ]
 
 jobs:
   laravel-migration:
@@ -16,7 +16,12 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.2'
-        extensions: pdo, pdo_pgsql
+        extensions: pdo, pdo_pgsql, pgsql # Kita kunci semua driver postgres di sini
+        tools: composer:v2
+
+    # Langkah penyelamat: Buat file .env tiruan agar Laravel tidak bingung saat install dependensi
+    - name: Copy Environment File
+      run: php -r "file_exists('.env') || copy('.env.example', '.env');"
 
     - name: Install Composer Dependencies
       run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
@@ -24,5 +29,10 @@ jobs:
     - name: Run Migration to Supabase
       env:
         DB_CONNECTION: pgsql
-        DB_URL: postgresql://postgres:jangandihackya@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+        DB_HOST: aws-0-ap-southeast-1.pooler.supabase.com
+        DB_PORT: 6543
+        DB_DATABASE: postgres
+        DB_USERNAME: postgres
+        DB_PASSWORD: jangandihackya
+        DB_SSLMODE: require
       run: php artisan migrate --force
