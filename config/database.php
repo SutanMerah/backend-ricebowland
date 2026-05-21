@@ -96,10 +96,7 @@ return [
             'prefix' => '',
             'prefix_indexes' => true,
             'search_path' => 'public',
-            'sslmode' => 'require', // <-- Pastikan ini require
-            'options' => [
-            PDO::PGSQL_ATTR_SSL_CA => true, // <-- Tambahkan baris sakti ini untuk memicu SNI bawaan PHP
-    ],
+            'sslmode' => env('DB_SSLMODE', 'prefer'), // <-- Pastikan ini require
         ],
 
         'sqlsrv' => [
