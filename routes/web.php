@@ -7,12 +7,18 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
-// Rute darurat untuk memicu migrasi langsung dari server Vercel
 Route::get('/jalankan-migrasi', function () {
+    // Kita bypass handling standar Laravel agar memuntahkan error aslinya ke browser
     try {
-        Artisan::call('migrate', ['--force' => true]);
+        $status = Artisan::call('migrate', ['--force' => true]);
         return 'Selamat Azka, Migrasi Berhasil! Output: ' . Artisan::output();
-    } catch (\Exception $e) {
-        return 'Aduh Gagal: ' . $e->getMessage();
+    } catch (\Throwable $e) { // Menggunakan Throwable agar menangkap semua jenis fatal error
+        echo "<h3>Waduh, Laravel Mengalami Kendala Koneksi:</h3>";
+        echo "<pre style='color:red; background:#fff5f5; padding:15px; border:1px solid #ffcccc;'>";
+        echo $e->getMessage() . "\n\n";
+        echo "File: " . $e->getFile() . " (Line: " . $e->getLine() . ")\n\n";
+        echo $e->getTraceAsString();
+        echo "</pre>";
+        exit;
     }
 });
