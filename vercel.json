@@ -3,12 +3,12 @@
     "outputDirectory": ".",
   "builds": [
     {
+      "src": "public/index.php",
+      "use": "vercel-php@0.8.0"
+    },
+    {
       "src": "api/index.php",
-      "use": "vercel-php@0.8.0",
-      "config": { 
-        "composer": true,
-        "includeFiles": ["bootstrap/**", "config/**", "database/**", "routes/**", "app/**"]
-      }
+      "use": "vercel-php@0.8.0"
     }
   ],
   "routes": [

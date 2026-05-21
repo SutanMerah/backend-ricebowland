@@ -1,13 +1,9 @@
 <?php
 
-// 1. Jalankan migrasi database di latar belakang cloud Vercel
-try {
-    $app = require_once __DIR__ . '/../bootstrap/app.php';
-    $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
-    $kernel->call('migrate', ['--force' => true]);
-} catch (\Exception $e) {
-    // Biarkan lewat jika tabel sudah terbuat
+// Pastikan Vercel melacak autoloader Vendor secara absolut
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require __DIR__ . '/../vendor/autoload.php';
 }
 
-// 2. Oper request secara internal ke index utama Laravel
+// Jalankan aplikasi Laravel bawaan public
 require __DIR__ . '/../public/index.php';
