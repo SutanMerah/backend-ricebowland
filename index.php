@@ -1,20 +1,18 @@
 <?php
+// index.php
 
-// Tentukan lokasi base path Laravel
-define('LARAVEL_START', microtime(true));
+$host = 'db.adfrmljnbgdcajwpocco.supabase.co';
+$db   = 'postgres';
+$user = 'postgres';
+$pass = 'jangandihackya';
+$port = '5432';
 
-// Load Composer Autoloader
-require __DIR__ . '/vendor/autoload.php';
-
-// Bootstrap Laravel
-$app = require_once __DIR__ . '/bootstrap/app.php';
-
-// Jalankan Kernel HTTP
-$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
-
-$response = $kernel->handle(
-    $request = Illuminate\Http\Request::capture()
-);
-
-$response->send();
-$kernel->terminate($request, $response);
+try {
+    $dsn = "pgsql:host=$host;port=$port;dbname=$db;";
+    $pdo = new PDO($dsn, $user, $pass, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+    
+    echo "KONEKSI DATABASE BERHASIL!";
+} catch (\PDOException $e) {
+    echo "KONEKSI GAGAL: " . $e->getMessage();
+}
+exit;
