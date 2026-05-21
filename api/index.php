@@ -1,18 +1,30 @@
 <?php
 
-// Jalankan migrasi database secara otomatis lewat Vercel cloud
+// 1. Paksa browser membaca ini sebagai halaman teks/JSON, bukan unduhan file!
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+
 try {
     require __DIR__ . '/../vendor/autoload.php';
     $app = require_once __DIR__ . '/../bootstrap/app.php';
     
     $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
     
-    // Perintah memicu php artisan migrate --force via kode PHP
-    $kernel->call('migrate', ['--force' => true]);
+    // 2. Eksekusi migrasi ke Supabase
+    $status = $kernel->call('migrate', ['--force' => true]);
     
-} catch (\Exception $e) {
-    // Jika database sudah termigrasi, dia akan mengabaikan error dan lanjut
-}
+    // 3. Tampilkan pesan sukses di layar browser
+    echo json_encode([
+        'success' => true,
+        'message' => 'Koneksi Cloud Sukses! Proses inline migration berhasil dijalankan.',
+        'artisan_output' => \Illuminate\Support\Facades\Artisan::output()
+    ]);
 
-// Bawaan routing Vercel untuk Laravel (Jangan diubah)
-require __DIR__ . '/../public/index.php';
+} catch (\Exception $e) {
+    // Jika ada error (misal urusan database), tampilkan ke layar biar kelihatan
+    echo json_encode([
+        'success' => false,
+        'error_message' => $e->getMessage(),
+        'trace' => 'Silakan cek berkas .env di Vercel apakah DB_URL sudah benar.'
+    ]);
+}
