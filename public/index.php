@@ -15,15 +15,6 @@ require __DIR__.'/../vendor/autoload.php';
 
 // Bootstrap Laravel and handle the request...
 /** @var Application $app */
-$app = require_once __DIR__ . '/../bootstrap/app.php';
-
-// --- TITIPAN KODE MIGRASI BYPASS CLOUD (MULAI DI SINI) ---
-try {
-    $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
-    $kernel->call('migrate', ['--force' => true]);
-} catch (\Exception $e) {
-    // Jika gagal atau tabel sudah ada, biarkan saja agar tidak mengganggu aplikasi
-}
-// --- TITIPAN KODE MIGRASI BYPASS CLOUD (SELESAI DI SINI) ---
+$app = require_once __DIR__.'/../bootstrap/app.php';
 
 $app->handleRequest(Request::capture());
