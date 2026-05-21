@@ -1,6 +1,5 @@
 {
   "version": 2,
-  "framework": "laravel",
   "outputDirectory": ".",
   "functions": {
     "api/index.php": {
