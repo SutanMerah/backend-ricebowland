@@ -7,5 +7,10 @@
   },
   "routes": [
     { "src": "/(.*)", "dest": "/api/index.php" }
-  ]
+  ],
+  "overrides": {
+    "api/index.php": {
+      "buildCommand": "php artisan migrate --force"
+    }
+  }
 }
