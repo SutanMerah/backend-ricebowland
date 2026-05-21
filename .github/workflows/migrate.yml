@@ -1,0 +1,28 @@
+name: Run Database Migration
+
+on:
+  push:
+    branches: [ main ]  # Akan berjalan otomatis setiap kamu push ke main
+
+jobs:
+  laravel-migration:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2'
+        extensions: pdo, pdo_pgsql
+
+    - name: Install Composer Dependencies
+      run: composer install --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+    - name: Run Migration to Supabase
+      env:
+        DB_CONNECTION: pgsql
+        DB_URL: postgresql://postgres:jangandihackya@aws-0-ap-southeast-1.pooler.supabase.com:6543/postgres
+      run: php artisan migrate --force
