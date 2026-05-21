@@ -3,6 +3,7 @@
 // 1. Paksa browser membaca ini sebagai halaman teks/JSON, bukan unduhan file!
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
+header('Content-Type: text/html; charset=utf-8');
 
 try {
     require __DIR__ . '/../vendor/autoload.php';
