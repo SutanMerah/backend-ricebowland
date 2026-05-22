@@ -17,3 +17,10 @@ Route::get('/tes-koneksi', function () {
         return "Gagal koneksi: " . $e->getMessage();
     }
 });
+
+Route::get('/', function () {
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Backend Ricebowl API is running successfully on Fly.io!'
+    ]);
+});
