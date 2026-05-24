@@ -7,7 +7,7 @@ return [
     |--------------------------------------------------------------------------
     */
 
-    'paths' => ['*', 'api/*', 'orders'], // Tambahkan '*' atau rute spesifikmu di sini
+    'paths' => ['*', 'api/*', 'orders', 'sanctum/csrf-cookie'], // Tambahkan '*' atau rute spesifikmu di sini
 
     'allowed_methods' => ['*'], // Mengizinkan semua method (POST, GET, dll)
 
@@ -23,5 +23,4 @@ return [
 
     'supports_credentials' => false,
 
-    'allowed_origins' => explode(',', env('ALLOWED_ORIGINS', 'http://localhost:8081,http://127.0.0.1:8081')),
-];
+    ];

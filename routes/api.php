@@ -8,9 +8,22 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
 
 Route::get('/menus',[MenuController::class,'index']);
+Route::post('/menus',[MenuController::class,'store']);
+Route::delete('/menus/{id}', [MenuController::class, 'destroy']);
 
 Route::post('/login',[AuthController::class,'login']);
 Route::post('/register',[AuthController::class,'register']);
+Route::post('/forgot-password', [AuthController::class, 'forgotPassword']);
+Route::post('/reset-password', [AuthController::class, 'resetPassword']);
+
+// Tambahkan rute GET ini khusus untuk menangani link dari email bawaan Laravel
+Route::get('/reset-password/{token}', function (string $token) {
+    return response()->json([
+        'message' => 'Silakan salin token di bawah ini dan masukkan ke aplikasi Ricebowland.',
+        'token' => $token
+    ]);
+})->name('password.reset'); // <--- Bagian name() ini yang dicari oleh Laravel
+
 
 Route::post('/orders',[OrderController::class,'store']);
 //Route::get('/orders',[OrderController::class,'index']);
@@ -54,3 +67,4 @@ Route::options('{any}', function() {
         ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
         ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 })->where('any', '.*');
+
