@@ -15,7 +15,10 @@ class Order extends Model
         'menu_id',
         'qty',
         'customer_name',
-        'notes'
+        'notes',
+        'phone_number',
+        'status',
+        'metode_pembayaran'
         // ... jika ada kolom lain bawaan backend-mu (seperti status, total_price, dll), biarkan saja tetap di sini
     ];
 

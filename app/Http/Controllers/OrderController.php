@@ -24,6 +24,7 @@ class OrderController extends Controller
             'qty' => $req->qty,
             'customer_name' => $req->customer_name,
             'notes' => $req->notes,
+            'metode_pembayaran' => 'COD', // Default metode pembayaran COD
             'status' => 'pending'
         ]);
 

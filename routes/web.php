@@ -39,3 +39,17 @@ Route::get('/storage/menus/{filename}', function ($filename) {
 
     return response($file, 200)->header("Content-Type", $type);
 });
+
+// Rute darurat untuk melayani gambar bukti pembayaran (Sama aman dan permanennya dengan rute menu)
+Route::get('/storage/payment_proofs/{filename}', function ($filename) {
+    $path = storage_path('app/public/payment_proofs/' . $filename);
+
+    if (!File::exists($path)) {
+        abort(404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    return response($file, 200)->header("Content-Type", $type);
+});

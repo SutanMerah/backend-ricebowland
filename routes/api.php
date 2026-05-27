@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InvoiceController;
 
 Route::get('/menus',[MenuController::class,'index']);
 Route::post('/menus',[MenuController::class,'store']);
@@ -68,3 +69,14 @@ Route::options('{any}', function() {
         ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 })->where('any', '.*');
 
+// Route untuk transaksi invoice (Staging)
+Route::post('/invoices/stage', [InvoiceController::class, 'stagePayment']);
+Route::post('/invoices/{id}/upload-proof', [InvoiceController::class, 'uploadProof']);
+Route::post('/invoices/{id}/cancel', [InvoiceController::class, 'cancelInvoice']);
+
+// Route khusus Admin (Sebaiknya beri middleware auth/admin jika ada)
+Route::post('/invoices/{id}/approve', [InvoiceController::class, 'approveInvoice']);
+
+Route::get('/invoices/{id}/status', [InvoiceController::class, 'checkStatus']);
+
+Route::get('/invoices/pending', [InvoiceController::class, 'getPendingInvoices']);
