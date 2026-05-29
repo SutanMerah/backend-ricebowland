@@ -4,6 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\URL;
+use App\Models\Invoice;
+use App\Observers\InvoiceObserver;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +27,7 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') === 'production' || env('FLY_APP_NAME')) {
         URL::forceScheme('https');
         }
+
+        Invoice::observe(InvoiceObserver::class);
     }
 }

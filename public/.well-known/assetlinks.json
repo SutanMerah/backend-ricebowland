@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.sutanmerah.Ricebowland",
+      "sha256_cert_fingerprints": [
+        "E2:99:59:4E:A9:B9:45:DE:A1:94:DE:9D:E0:92:9F:C7:C1:19:E9:AE:AB:3D:F4:60:B8:59:17:72:F5:F8:A5:8D"
+      ]
+    }
+  }
+]

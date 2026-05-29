@@ -1,12 +1,14 @@
 <?php
 
 use App\Models\Order;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\AdminContactController;
 
 Route::get('/menus',[MenuController::class,'index']);
 Route::post('/menus',[MenuController::class,'store']);
@@ -80,3 +82,31 @@ Route::post('/invoices/{id}/approve', [InvoiceController::class, 'approveInvoice
 Route::get('/invoices/{id}/status', [InvoiceController::class, 'checkStatus']);
 
 Route::get('/invoices/pending', [InvoiceController::class, 'getPendingInvoices']);
+
+
+Route::get('/test-wa', function () {
+    $token = env('FONNTE_TOKEN');
+    $target = env('ADMIN_WHATSAPP');
+
+    $response = Http::withHeaders([
+        'Authorization' => $token,
+    ])->post('https://api.fonnte.com/send', [
+        'target' => $target,
+        'message' => "Halo Admin! Ini adalah pesan tes dari Laravel menggunakan *Fonnte* 🚀",
+        'countryCode' => '62', // Opsional, default kode negara
+    ]);
+
+    return response()->json([
+        'status_code' => $response->status(),
+        'response_body' => $response->json()
+    ]);
+});
+
+// Jalur Publik Customer
+Route::get('/public/contacts', [AdminContactController::class, 'indexPublic']);
+
+// Jalur Manajemen Admin
+Route::get('/admin/contacts', [AdminContactController::class, 'indexAdmin']);
+Route::post('/admin/contacts', [AdminContactController::class, 'store']);
+Route::put('/admin/contacts/{id}', [AdminContactController::class, 'update']);
+Route::delete('/admin/contacts/{id}', [AdminContactController::class, 'destroy']);
